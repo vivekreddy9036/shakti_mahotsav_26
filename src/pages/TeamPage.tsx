@@ -25,7 +25,7 @@ const TEAM: TeamDepartment[] = [
     title: 'Core',
     members: [
       { name: 'Praveen Preetham' },
-      { name: 'Vivek Reddy' },
+      { name: 'Sai Vivek Reddy' },
       { name: 'CH Monish' },
       { name: 'Phani Chandan Reddy' },
       { name: 'Ajay' },
