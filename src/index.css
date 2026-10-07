@@ -1,0 +1,309 @@
+@import "tailwindcss";
+@import "./styles/home-hero.css";
+
+@layer base {
+  :root {
+    --font-cinzel: 'Cinzel', serif;
+    --font-cinzel-dec: 'Cinzel Decorative', serif;
+    --font-garamond: 'Cormorant Garamond', serif;
+    --font-marcellus: 'Marcellus', serif;
+    --font-sans: 'Plus Jakarta Sans', sans-serif;
+    --font-manrope: 'Manrope', sans-serif;
+    --font-cormorant: 'Cormorant Garamond', serif;
+    --font-sourceserif: 'Source Serif 4', serif;
+
+    --site-header-h: 72px;
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --site-header-h: 72px;
+    }
+  }
+
+  @media (min-width: 1440px) {
+    :root {
+      --site-header-h: 72px;
+    }
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: #020817;
+    color: #F8F2E3;
+  }
+
+  h1, h2, h3, .font-heading, .font-cinzel {
+    font-family: var(--font-cinzel);
+  }
+
+  .font-cinzel-dec {
+    font-family: var(--font-cinzel-dec);
+  }
+
+  .font-subheading, .font-garamond {
+    font-family: var(--font-marcellus);
+  }
+
+  .font-manrope {
+    font-family: var(--font-manrope);
+  }
+
+  .font-cormorant {
+    font-family: var(--font-cormorant);
+  }
+
+  .font-sourceserif {
+    font-family: var(--font-sourceserif);
+  }
+}
+
+/* ======================================================================= */
+/* NAV PILL — rotating border shimmer + logo breathing                     */
+/* The conic-gradient border references the gold kangan (bracelet) of the  */
+/* goddess — a single bright spark of light rotating slowly around the     */
+/* pill, like flame catching ornate jewelry. 9 s is intentionally slow.   */
+/* ======================================================================= */
+
+@property --shimmer-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes shimmer-rotate {
+  to { --shimmer-angle: 360deg; }
+}
+
+@keyframes logo-breathe {
+  0%, 100% {
+    filter:
+      drop-shadow(0 0 16px rgba(212,168,79,0.55))
+      drop-shadow(0 0  6px rgba(160, 20, 20, 0.38));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 30px rgba(212,168,79,0.88))
+      drop-shadow(0 0 12px rgba(160, 20, 20, 0.62));
+  }
+}
+
+/* Wrapper that provides the animated border — inner pill sits inside at 1px offset */
+.nav-pill-wrapper {
+  border-radius: 9999px;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--shimmer-angle, 0deg),
+    rgba(212,168,79,0.18)  0%,
+    rgba(212,168,79,0.18) 68%,
+    rgba(245,213,138,0.75) 78%,
+    rgba(255,242,185,1)   83%,
+    rgba(245,213,138,0.75) 88%,
+    rgba(212,168,79,0.18)  100%
+  );
+  animation: shimmer-rotate 9s linear infinite;
+}
+
+.animate-logo-breathe {
+  animation: logo-breathe 3.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-pill-wrapper {
+    animation: none;
+    background: rgba(212, 168, 79, 0.22);
+  }
+  .animate-logo-breathe {
+    animation: none;
+    filter:
+      drop-shadow(0 0 18px rgba(212,168,79,0.6))
+      drop-shadow(0 0 6px rgba(160,20,20,0.4));
+  }
+}
+
+/* ======================================================================= */
+/* NIGHT-SKY BACKGROUND AMBIENCE (FestivalBackground)                      */
+/* Quiet, compositor-friendly loops: opacity and small rotations only.     */
+/* ======================================================================= */
+
+/* Stars: brightness only — the star field itself never moves. */
+@keyframes star-twinkle {
+  0%, 100% {
+    opacity: var(--min-opacity, 0.2);
+  }
+  50% {
+    opacity: var(--max-opacity, 0.95);
+  }
+}
+
+.animate-twinkle {
+  animation-name: star-twinkle;
+}
+
+/* Corner mandalas: smooth continuous clockwise rotation */
+@keyframes mandala-rotate-clockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-mandala-rotate,
+.animate-mandala-drift {
+  animation: mandala-rotate-clockwise 48s linear infinite;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* Hanging ornaments: a gentle ±1° swing from the top of each strand. */
+@keyframes ornament-sway-subtle {
+  0%, 100% {
+    transform: rotate(-1deg);
+  }
+  50% {
+    transform: rotate(1deg);
+  }
+}
+
+.animate-ornament-sway {
+  animation: ornament-sway-subtle 9s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+/* Skyline diyas: only the glow flickers, each lamp on its own rhythm. */
+@keyframes diya-flicker {
+  0%, 100% {
+    opacity: 1;
+  }
+  22% {
+    opacity: 0.78;
+  }
+  41% {
+    opacity: 0.95;
+  }
+  63% {
+    opacity: 0.72;
+  }
+  82% {
+    opacity: 0.9;
+  }
+}
+
+.skyline-lamps > * {
+  animation: diya-flicker 3.4s ease-in-out infinite;
+}
+
+.skyline-lamps > :nth-child(3n + 1) {
+  animation-duration: 2.7s;
+  animation-delay: -0.9s;
+}
+
+.skyline-lamps > :nth-child(3n + 2) {
+  animation-duration: 4.1s;
+  animation-delay: -2.3s;
+}
+
+.skyline-lamps > :nth-child(4n) {
+  animation-delay: -1.6s;
+}
+
+/* ======================================================================= */
+/* SHARED KEYFRAME ANIMATIONS                                              */
+/* ======================================================================= */
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-reverse-slow {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.7;
+    filter: drop-shadow(0 0 16px rgba(212, 168, 79, 0.45));
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 28px rgba(245, 213, 138, 0.75));
+  }
+}
+
+@keyframes float-subtle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* Utility Animation Classes */
+.animate-spin-slow {
+  animation: spin-slow 28s linear infinite;
+}
+
+.animate-spin-reverse-slow {
+  animation: spin-reverse-slow 36s linear infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3.5s ease-in-out infinite;
+}
+
+.animate-float-subtle {
+  animation: float-subtle 6s ease-in-out infinite;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .animate-twinkle,
+  .animate-mandala-drift,
+  .animate-mandala-rotate,
+  .animate-ornament-sway,
+  .skyline-lamps > *,
+  .animate-spin-slow,
+  .animate-spin-reverse-slow,
+  .animate-pulse-glow,
+  .animate-float-subtle {
+    animation: none !important;
+  }
+}
+
+/* Hide scrollbars globally across all browsers while keeping smooth scrolling */
+html,
+body,
+* {
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
+}
+
+::-webkit-scrollbar {
+  display: none !important; /* Chrome, Safari, Opera, Edge */
+  width: 0px !important;
+  height: 0px !important;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0px !important;
+  height: 0px !important;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
